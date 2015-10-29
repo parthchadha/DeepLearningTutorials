@@ -31,6 +31,7 @@ References:
     - textbooks: "Pattern Recognition and Machine Learning" -
                  Christopher M. Bishop, section 4.3.2
 
+ First sample.
 """
 __docformat__ = 'restructedtext en'
 
