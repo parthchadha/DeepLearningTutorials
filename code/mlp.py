@@ -26,7 +26,7 @@ import sys
 import timeit
 
 import numpy
-
+import cPickle
 import theano
 import theano.tensor as T
 
@@ -389,6 +389,9 @@ def test_mlp(learning_rate=0.01, L1_reg=0.00, L2_reg=0.0001, n_epochs=1000,
                            'best model %f %%') %
                           (epoch, minibatch_index + 1, n_train_batches,
                            test_score * 100.))
+
+                     with open('mlp_vanila.pkl', 'w') as f:
+                        cPickle.dump(classifier, f)
 
             if patience <= iter:
                 done_looping = True
