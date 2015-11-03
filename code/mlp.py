@@ -196,7 +196,7 @@ class MLP(object):
 
 
 def test_mlp(learning_rate=0.01, L1_reg=0.00, L2_reg=0.0001, n_epochs=1000,
-             dataset='mnist.pkl.gz', batch_size=20, n_hidden=500):
+             dataset='mnist.pkl.gz', batch_size=20, n_hidden=500,saved_weights=None):
     """
     Demonstrate stochastic gradient descent optimization for a multilayer
     perceptron
@@ -256,6 +256,10 @@ def test_mlp(learning_rate=0.01, L1_reg=0.00, L2_reg=0.0001, n_epochs=1000,
         n_hidden=n_hidden,
         n_out=10
     )
+
+
+
+
 
     # start-snippet-4
     # the cost we minimize during training is the negative log likelihood of
@@ -389,7 +393,9 @@ def test_mlp(learning_rate=0.01, L1_reg=0.00, L2_reg=0.0001, n_epochs=1000,
                            'best model %f %%') %
                           (epoch, minibatch_index + 1, n_train_batches,
                            test_score * 100.))
-
+                    with open('test1.pkl', 'w') as f:
+                        cPickle.dump(classifier.hiddenLayer, f)
+                        #cPickle.dump(classifier.hiddenLayer.w.get_value(), f)
 
 
             if patience <= iter:
@@ -398,9 +404,7 @@ def test_mlp(learning_rate=0.01, L1_reg=0.00, L2_reg=0.0001, n_epochs=1000,
 
     end_time = timeit.default_timer()
     #numpy.save(os.path.join('test', 'test1' + '.npy'), classifier)
-     with open('best_model.pkl', 'w') as f:
-        cPickle.dump(classifier, f)
-        
+
     print(('Optimization complete. Best validation score of %f %% '
            'obtained at iteration %i, with test performance %f %%') %
           (best_validation_loss * 100., best_iter + 1, test_score * 100.))
