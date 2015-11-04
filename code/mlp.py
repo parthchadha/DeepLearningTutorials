@@ -248,6 +248,8 @@ def test_mlp(learning_rate=0.01, L1_reg=0.00, L2_reg=0.0001, n_epochs=5,
     n_valid_batches = valid_set_x.get_value(borrow=True).shape[0] / batch_size
     n_test_batches = test_set_x.get_value(borrow=True).shape[0] / batch_size
 
+    n_test = test_set_x.get_value(borrow=True).shape[0]
+
     ######################
     # BUILD ACTUAL MODEL #
     ######################
@@ -455,7 +457,7 @@ def test_mlp(learning_rate=0.01, L1_reg=0.00, L2_reg=0.0001, n_epochs=5,
         f.close()
 
         test_losses = [test_model(i) for i
-                       in xrange(dataset[2])]
+                       in xrange(n_test)]
         test_score = numpy.mean(test_losses)
 
         #
