@@ -461,9 +461,9 @@ def test_mlp(learning_rate=0.01, L1_reg=0.00, L2_reg=0.0001, n_epochs=5,
         test_losses_new = [test_model(i) for i
                        in xrange(n_test_batches)]
         test_score = numpy.mean(test_losses_new)
-        print(('     epoch %i, minibatch %i/%i, test error of '
+        print((
                'best model %f %%') %
-              (epoch, minibatch_index + 1, n_train_batches,
+              (
                test_score * 100.))
 
         # RET = []
