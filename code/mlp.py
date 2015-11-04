@@ -129,7 +129,7 @@ class MLP(object):
      #   (self.layer0.W, self.layer0.b, self.layer1.W, self.layer1.b, self.layer2.W, self.layer2.b, self.layer3.W, self.layer3.b) = state
         i = iter(weights)
         for p in self.params:
-            p.set_value(i.__next__())
+            p.set_value(i.next())
 
     def __init__(self, rng, input, n_in, n_hidden, n_out):
         """Initialize the parameters for the multilayer perceptron
@@ -335,7 +335,6 @@ def test_mlp(learning_rate=0.01, L1_reg=0.00, L2_reg=0.0001, n_epochs=5,
         }
     )
     # end-snippet-5
-
 
     ###############
     # TRAIN MODEL #
