@@ -119,6 +119,17 @@ class MLP(object):
     top layer is a softmax layer (defined here by a ``LogisticRegression``
     class).
     """
+    def __getstate__(self):
+        weights = [p.get_value() for p in self.params]
+        #return (self.layer0.W, self.layer0.b, self.layer1.W, self.layer1.b, self.layer2.W,
+        #                       self.layer2.b, self.layer3.W, self.layer3.b)
+        return weights
+
+    def __setstate__(self, weights):
+     #   (self.layer0.W, self.layer0.b, self.layer1.W, self.layer1.b, self.layer2.W, self.layer2.b, self.layer3.W, self.layer3.b) = state
+        i = iter(weights)
+        for p in self.params:
+            p.set_value(i.__next__())
 
     def __init__(self, rng, input, n_in, n_hidden, n_out):
         """Initialize the parameters for the multilayer perceptron
@@ -224,6 +235,8 @@ def test_mlp(learning_rate=0.01, L1_reg=0.00, L2_reg=0.0001, n_epochs=5,
 
 
    """
+
+
     datasets = load_data(dataset)
 
     train_set_x, train_set_y = datasets[0]
