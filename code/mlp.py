@@ -207,7 +207,7 @@ class MLP(object):
 
 
 def test_mlp(learning_rate=0.01, L1_reg=0.00, L2_reg=0.0001, n_epochs=5,
-             dataset='mnist.pkl.gz', batch_size=20, n_hidden=500,saved_weights=None):
+             dataset='mnist.pkl.gz', batch_size=20, n_hidden=500,action='predict'):
     """
     Demonstrate stochastic gradient descent optimization for a multilayer
     perceptron
@@ -336,6 +336,7 @@ def test_mlp(learning_rate=0.01, L1_reg=0.00, L2_reg=0.0001, n_epochs=5,
     )
     # end-snippet-5
 
+
     ###############
     # TRAIN MODEL #
     ###############
@@ -420,12 +421,69 @@ def test_mlp(learning_rate=0.01, L1_reg=0.00, L2_reg=0.0001, n_epochs=5,
     end_time = timeit.default_timer()
 
 
+###
+#TRAINING DONE#
+###
+
     print(('Optimization complete. Best validation score of %f %% '
            'obtained at iteration %i, with test performance %f %%') %
           (best_validation_loss * 100., best_iter + 1, test_score * 100.))
     print >> sys.stderr, ('The code for file ' +
                           os.path.split(__file__)[1] +
                           ' ran for %.2fm' % ((end_time - start_time) / 60.))
+
+
+    ##############
+    # PREDICTIONS #
+    ###############
+
+    if action == 'predict':
+        # construct the CNN class
+        classifier_2 = MLP(
+            rng=rng,
+            input=x,
+            n_in=28 * 28,
+            n_hidden=n_hidden,
+            n_out=10
+        )
+
+
+        print ("Will predict on test data now!")
+
+
+        f = open('mlp_test.pkl', 'rb')
+        classifier_2.__setstate__(cPickle.load(f))
+        f.close()
+
+        test_losses = [test_model(i) for i
+                       in xrange(dataset[2])]
+        test_score = numpy.mean(test_losses)
+
+        #
+        # RET = []
+        # for it in range(len(datasets[2])):
+        #     test_data = test_datasets[it]
+        #     N = len(test_data)
+        #     test_data = theano.shared(numpy.asarray(test_data, dtype=theano.config.floatX))
+        #     # just zeroes
+        #     test_labels = T.cast(theano.shared(numpy.asarray(numpy.zeros(batch_size), dtype=theano.config.floatX)), 'int32')
+        #
+        #     ppm = theano.function([index], classifier_2.layer3.pred_probs(),
+        #         givens={
+        #             x: test_data[index * batch_size: (index + 1) * batch_size],
+        #             y: test_labels
+        #         }, on_unused_input='warn')
+        #
+        #     # p : predictions, we need to take argmax, p is 3-dim: (# loop iterations x batch_size x 2)
+        #     p = [ppm(ii) for ii in range( N // batch_size)]
+        #     #p_one = sum(p, [])
+        #     #print p
+        #     p = numpy.array(p).reshape((N, 10))
+        #     print (p)
+        #     p = numpy.argmax(p, axis=1)
+        #     p = p.astype(int)
+        #     RET.append(p)
+        # return RET
 
 
 if __name__ == '__main__':
