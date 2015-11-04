@@ -394,10 +394,12 @@ def test_mlp(learning_rate=0.01, L1_reg=0.00, L2_reg=0.0001, n_epochs=5,
                           (epoch, minibatch_index + 1, n_train_batches,
                            test_score * 100.))
 
-                with open('test_model.pkl', 'w') as f:
-                    cPickle.dump(HiddenLayer.W.get_value(), f,-1)
-                    cPickle.dump(HiddenLayer.b.get_value(), f,-1)
-
+                #with open('test_model.pkl', 'w') as f:
+                 #   cPickle.dump(HiddenLayer.W.get_value(), f,-1)
+                  #  cPickle.dump(HiddenLayer.b.get_value(), f,-1)
+                f = open('mlp_test.pkl', 'wb')
+                cPickle.dump(classifier.__getstate__(), f, protocol=cPickle.HIGHEST_PROTOCOL)
+                f.close()
             if patience <= iter:
                 done_looping = True
                 break
