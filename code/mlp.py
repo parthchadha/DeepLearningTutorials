@@ -456,10 +456,10 @@ def test_mlp(learning_rate=0.01, L1_reg=0.00, L2_reg=0.0001, n_epochs=5,
         classifier_2.__setstate__(cPickle.load(f))
         f.close()
 
-        test_losses = [test_model(i) for i
+        test_losses_new = [test_model(i) for i
                        in xrange(n_test)]
-        test_score = numpy.mean(test_losses)
-
+        test_score = numpy.mean(test_losses_new)
+        print (('test percentage %i'),test_losses_new * 100.)
         #
         # RET = []
         # for it in range(len(datasets[2])):
